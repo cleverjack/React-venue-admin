@@ -1,26 +1,50 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.scss';
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+
+import Sidebar from './components/Sidebar'
+import Dashboard from './screens/Dashboard'
+import CreateEventGallery from './screens/CreateEventGallery';
+import EventGalleries from './screens/EventGalleries';
+import EventGalleryDetails from './screens/EventGalleryDetails';
+import Venue from './containers/venue';
+import { Provider } from 'react-redux';
+import configureStore from './store';
+
+
+export const store = configureStore();
+
+import {
+  Layout
+} from 'antd';
+
+const { Content, Header, Footer } = Layout;
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.tsx</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <Router>
+        <Layout>
+          <Sidebar />
+          <Layout style={{ marginLeft: 200 }}>
+            <Header style={{ background: '#fff', padding: 0 }} />
+            <Content style={{ margin: '24px 16px 0', overflow: 'initial', minHeight: 'calc(100vh - 60px)' }}>
+              <Provider store={store}>
+                <Switch>
+                  <Route exact path="/event-gallery/new" component={CreateEventGallery} />
+                  <Route exact path="/event-galleries" component={EventGalleries} />
+                  <Route exact path="/event-gallery/:id" component={EventGalleryDetails} />
+                  <Route exact path="/dashboard" component={Dashboard} />
+                  <Route exact path="/venue/new" component={Venue} />
+                </Switch>
+              </Provider>
+            </Content>
+            <Footer style={{ textAlign: 'center' }}>
+              Venue Genie ©2019 Created by Threeaccents
+            </Footer>
+          </Layout>
+        </Layout>
+      </Router>
     );
   }
 }
