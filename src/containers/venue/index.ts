@@ -12,7 +12,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 
 const mapStateToProps = (state: any) => {
     return {
-        amenities: state.venue.amenities
+        amenities: state.venue.amenities,
+        options: state.venue.options
     };
 };
 

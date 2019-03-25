@@ -4,13 +4,28 @@ import { Menu, Icon } from "antd";
 import SubMenu from "antd/lib/menu/SubMenu";
 import { Link } from "react-router-dom";
 
-class Sidebar extends Component {
+
+interface SidebarProps {
+    trigger?: any;
+    collapsible?: boolean;
+    collapsed?: boolean;
+}
+
+class Sidebar extends Component<SidebarProps> {
+
+    public static defaultProps: SidebarProps = {
+        trigger: null,
+        collapsible: false,
+        collapsed: false
+    };
+
     render() {
+        const { trigger, collapsible, collapsed } = this.props;
+
         return (
-            <Sider style={{
+            <Sider trigger={trigger} collapsible={collapsible} collapsed={collapsed} width={240} style={{
                 overflow: 'auto', height: '100vh', position: 'fixed', left: 0,
-            }}
-            >
+            }}>
                 <div className="logo" />
                 <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
                     <Menu.Item key="01">

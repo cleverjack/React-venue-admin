@@ -24,30 +24,37 @@ import venue from "../../../services/venue";
 import TextArea from "antd/lib/input/TextArea";
 import ReactGoogleMapLoader from "react-google-maps-loader";
 import ReactGooglePlacesSuggest from "react-google-places-suggest";
-const API_KEY = "";
+const API_KEY = "AIzaSyC6lD9rxE5Numn2vRMr2m93lGzT1ipYisI";
 
 const dateFormat = "YYYY-MM-DD";
-class StepOne extends Component<
-  {},
-  { search: string; value: string; venue: VenueModel | undefined }
-> {
+
+interface VenueInfoProps {
+  venue: VenueModel | undefined;
+  updateVenueState: Function;
+}
+
+class VenueInformation extends Component<VenueInfoProps, { search: string; value: string; venue: VenueModel | undefined }> {
   constructor(props: any) {
     super(props);
     this.state = { venue: undefined, search: "", value: "" };
   }
+
   handleInputChange(e: any) {
     this.setState({ search: e.target.value, value: e.target.value });
   }
+
   handleSelectSuggest(suggest: any) {
     console.log(suggest);
     this.setState({ search: "", value: suggest.formatted_address });
   }
+
   private updateVenueState(key: string, value: any) {
     const venue: any = { ...this.state.venue, [key]: value };
     this.setState({
       venue: venue
     });
   }
+
   render() {
     const { venue } = this.state;
     const name = venue ? venue.name : "";
@@ -66,15 +73,55 @@ class StepOne extends Component<
     const city = venue ? venue.city : "";
     return (
       <Row>
-        <Col
-          xl={{ span: 12 }}
-          lg={{ span: 14 }}
-          md={{ span: 16 }}
-          sm={{ span: 24 }}
-        >
+        <Col>
           <Card>
             <legend>Venue Information</legend>
             <Form className="login-form">
+              <Form.Item label="Venue Name">
+                <Input
+                  value={email}
+                  onInput={(e: any) =>
+                    this.updateVenueState("email", e.target.value)
+                  }
+                  placeholder="Venue Name"
+                />
+              </Form.Item>
+              <Form.Item label="Room Name">
+                <Input
+                  value={email}
+                  onInput={(e: any) =>
+                    this.updateVenueState("email", e.target.value)
+                  }
+                  placeholder="Room Name"
+                />
+              </Form.Item>
+              <Form.Item label="Listing Name">
+                <Input
+                  value={email}
+                  onInput={(e: any) =>
+                    this.updateVenueState("email", e.target.value)
+                  }
+                  placeholder="Listing Name"
+                />
+              </Form.Item>
+              <Form.Item label="Commission">
+                <Input
+                  value={email}
+                  onInput={(e: any) =>
+                    this.updateVenueState("email", e.target.value)
+                  }
+                  placeholder="Commission"
+                />
+              </Form.Item>
+              <Form.Item label="Contact Name">
+                <Input
+                  value={email}
+                  onInput={(e: any) =>
+                    this.updateVenueState("email", e.target.value)
+                  }
+                  placeholder="Contact Name"
+                />
+              </Form.Item>
               <Form.Item label="Email">
                 <Input
                   value={email}
@@ -127,30 +174,6 @@ class StepOne extends Component<
                   placeholder="Venue Type"
                 />
               </Form.Item>
-              <ReactGoogleMapLoader
-                params={{
-                  key: API_KEY,
-                  libraries: "places,geocode"
-                }}
-                render={(googleMaps: any) =>
-                  googleMaps && (
-                    <div>
-                      <ReactGooglePlacesSuggest
-                        autocompletionRequest={{ input: this.state.search }}
-                        googleMaps={googleMaps}
-                        onSelectSuggest={this.handleSelectSuggest.bind(this)}
-                      >
-                        <input
-                          type="text"
-                          value={this.state.value}
-                          placeholder="Search a location"
-                          onChange={this.handleInputChange.bind(this)}
-                        />
-                      </ReactGooglePlacesSuggest>
-                    </div>
-                  )
-                }
-              />
             </Form>
           </Card>
           <Card className="card-margin">
@@ -180,20 +203,35 @@ class StepOne extends Component<
           </Card>
           <Card className="card-margin">
             <legend>Location </legend>
-            <Form className="login-form">
+            <Form className="location-form">
               <Form.Item label="Address">
-                <Input
-                  type="number"
-                  value={address}
-                  onInput={(e: any) =>
-                    this.updateVenueState("address", e.target.value)
+                <ReactGoogleMapLoader
+                  params={{
+                    key: API_KEY,
+                    libraries: "places,geocode"
+                  }}
+                  render={(googleMaps: any) =>
+                    googleMaps && (
+                      <div>
+                        <ReactGooglePlacesSuggest
+                          autocompletionRequest={{ input: this.state.search }}
+                          googleMaps={googleMaps}
+                          onSelectSuggest={this.handleSelectSuggest.bind(this)}
+                        >
+                          <input
+                            type="text"
+                            value={this.state.value}
+                            placeholder="Search a location"
+                            onChange={this.handleInputChange.bind(this)}
+                          />
+                        </ReactGooglePlacesSuggest>
+                      </div>
+                    )
                   }
-                  placeholder="Address"
                 />
               </Form.Item>
               <Form.Item label="City">
                 <Input
-                  type="number"
                   value={city}
                   onInput={(e: any) =>
                     this.updateVenueState("city", e.target.value)
@@ -208,4 +246,4 @@ class StepOne extends Component<
     );
   }
 }
-export default StepOne;
+export default VenueInformation;

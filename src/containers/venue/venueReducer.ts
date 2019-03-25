@@ -1,8 +1,12 @@
-import { FETCH_AMENITIES, FETCH_AMENITIES_SUCCESS, FETCH_AMENITIES_FAILIURE } from './constants';
+import { 
+  FETCH_AMENITIES, FETCH_AMENITIES_SUCCESS, FETCH_AMENITIES_FAILURE,
+  FETCH_VENUE_OPTIONS, FETCH_VENUE_OPTIONS_SUCCESS, FETCH_VENUE_OPTIONS_FAILURE 
+} from './constants';
 
 const initialState = {
     errorMessage: '',
-    amenities: []
+    amenities: [],
+    options: {}
 };
 
 const reducer = (state = initialState, action: any) => {
@@ -14,7 +18,18 @@ const reducer = (state = initialState, action: any) => {
     return Object.assign({}, state, {
         amenities: action.res.data[0].amenities
     })
-  case FETCH_AMENITIES_FAILIURE:
+  case FETCH_AMENITIES_FAILURE:
+    return Object.assign({}, state, {
+        errorMessage: action.err
+    })
+  case FETCH_VENUE_OPTIONS:
+    return Object.assign({}, state, {
+    })
+  case FETCH_VENUE_OPTIONS_SUCCESS:
+    return Object.assign({}, state, {
+        options: action.res.data
+    })
+  case FETCH_VENUE_OPTIONS_FAILURE:
     return Object.assign({}, state, {
         errorMessage: action.err
     })
